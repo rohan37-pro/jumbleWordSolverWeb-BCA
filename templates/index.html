@@ -3,9 +3,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/styles.css">
     <title>Jumble Word Solver</title>
 </head>
 <body>
-    <h1>JUMBLE WORD SOLVER</h1>
+    <div class="headline" ><h1>JUMBLE WORD SOLVER</h1></div>
+    <div class="form-container">
+        <div class="form-element" >
+            <div>
+                <input class="input-box" id="jumble-word" class="input-box" type="text" >
+                <button class="red-button" onclick="JavaScript:jumbleWordSolver()" type="submit" > Submit </button>
+            </div>
+            <button class="red-button" style="margin-top: 20px;" onclick="javaScript:window.location.href='/';"> clear </button>
+        </div>
+        
+            
+        
+    </div>
+    <div class="solved-container" id="solved-container">
+
+    </div>
+
+<script>
+    function jumbleWordSolver(){
+        const data = document.getElementById("jumble-word").value
+        console.log(data)
+        const url = "/solve"
+        console.log()
+        const requestOptions = {
+        method: 'POST',
+        headers: {"Access-Control-Allow-Origin": "true", 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS', Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: `${data}`
+        };
+        let solved_data;
+        fetch(url, requestOptions).then((response) => response.json()).then((data) => showSolution(data))
+        
+    }
+
+    function showSolution(solved_data){
+        for (let i =0; i <solved_data.length; i++){
+            var p_tag = document.createElement("p")
+            p_tag.setAttribute("class", "solved-data")
+            p_tag.textContent = `${i+1}. ${solved_data[i]}`
+            document.getElementById("solved-container").appendChild(p_tag)
+            console.log(solved_data[i])
+        }
+        console.log("solved data inside show solution",solved_data)
+        // for i in solved_data {}
+        // solved.innerHtml = ""
+        
+    }
+</script>
 </body>
 </html>
